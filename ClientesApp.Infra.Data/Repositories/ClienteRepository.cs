@@ -9,16 +9,14 @@ using System.Threading.Tasks;
 
 namespace ClientesApp.Infra.Data.Repositories
 {
-    /// <summary>
-    /// Implementação do repositório de banco de dados de cliente.
-    /// </summary>
+
     public class ClienteRepository : IClienteRepository
     {
         public void Add(Cliente cliente)
         {
             using (var dataContext = new DataContext())
             {
-                dataContext.Clientes.Add(cliente);
+                dataContext.Add(cliente);
                 dataContext.SaveChanges();
             }
         }
@@ -27,7 +25,7 @@ namespace ClientesApp.Infra.Data.Repositories
         {
             using (var dataContext = new DataContext())
             {
-                dataContext.Clientes.Update(cliente);
+                dataContext.Update(cliente);
                 dataContext.SaveChanges();
             }
         }
@@ -36,7 +34,7 @@ namespace ClientesApp.Infra.Data.Repositories
         {
             using (var dataContext = new DataContext())
             {
-                return dataContext.Clientes
+                return dataContext.Set<Cliente>()
                     .Where(c => c.Ativo)
                     .OrderBy(c => c.Nome)
                     .ToList();
@@ -47,7 +45,7 @@ namespace ClientesApp.Infra.Data.Repositories
         {
             using (var dataContext = new DataContext())
             {
-                return dataContext.Clientes
+                return dataContext.Set<Cliente>()
                     .Where(c => c.Ativo)
                     .FirstOrDefault(c => c.Id == id);
             }
@@ -57,7 +55,7 @@ namespace ClientesApp.Infra.Data.Repositories
         {
             using (var dataContext = new DataContext())
             {
-                return dataContext.Clientes
+                return dataContext.Set<Cliente>()
                     .Any(c => c.Email.Equals(email) && c.Id != clienteId);
             }
         }
@@ -66,7 +64,7 @@ namespace ClientesApp.Infra.Data.Repositories
         {
             using (var dataContext = new DataContext())
             {
-                return dataContext.Clientes
+                return dataContext.Set<Cliente>()
                     .Any(c => c.Cpf.Equals(cpf) && c.Id != clienteId);
             }
         }
